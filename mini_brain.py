@@ -1,34 +1,33 @@
-import numpy as np
+import mysql.connector
 
-# 1. TRAINING DATA (Input patterns)
-# [1, 0, 0] -> Answer should be 1 (First number is 1)
-# [0, 1, 1] -> Answer should be 0 (First number is 0)
-inputs = np.array([[0,0,1], [1,1,1], [1,0,1], [0,1,1]])
-outputs = np.array([[0,1,1,0]]).T
+try:
+    # 1. Database Connection (Bridge banana)
+    conn = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="YOUR_PASSWORD", # <-- Yahan apna asli SQL password dalo
+        database="GODS"
+    )
+    cursor = conn.cursor()
 
-# 2. THE BRAIN (Weights)
-np.random.seed(1)
-weights = 2 * np.random.random((3,1)) - 1
+    # 2. SQL Query (Data nikalna)
+    cursor.execute("SELECT temperature, humidity, rain_occurred FROM Weather_Logs ORDER BY id DESC")
+    all_data = cursor.fetchall()
 
-print("--- AI STARTING TRAINING ---")
-
-# 3. THE TRAINING LOOP
-for iteration in range(10000):
-    input_layer = inputs
-    # Activation Function (Thinking process)
-    prediction = 1 / (1 + np.exp(-(np.dot(input_layer, weights))))
+    # 3. Processing (AI Analysis)
+    print("--- 🧠 PAPPU AI BRAIN ANALYSIS ---")
+    latest_entry = all_data[0] # Sabse naya data point
+    temp, hum, rain = latest_entry
     
-    # Error Calculation (Kitna galat tha AI)
-    error = outputs - prediction
-    
-    # Adjustments (Galti sudharna)
-    adjustments = error * (prediction * (1 - prediction))
-    weights += np.dot(input_layer.T, adjustments)
+    print(f"Current Stats: Temp {temp}°C | Humidity {hum}%")
 
-print("--- TRAINING COMPLETE ---")
-print("New Weights:\n", weights)
+    # 4. Prediction Logic (Decision Making)
+    if hum > 75:
+        print("\n[RESULT]: ⛈️ High chance of rain! Pappu, Umbrella (Chhatri) saath rakhna.")
+    else:
+        print("\n[RESULT]: ☀️ Weather looks clear. No umbrella needed!")
 
-# 4. TESTING THE BRAIN
-test_data = np.array([1, 0, 0])
-result = 1 / (1 + np.exp(-(np.dot(test_data, weights))))
-print(f"\nTesting AI with [1, 0, 0]... Prediction: {result[0]}")
+    conn.close()
+
+except Exception as e:
+    print(f"❌ Connection Error: {e}")
