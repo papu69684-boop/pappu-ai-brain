@@ -1,0 +1,22 @@
+name: Neural Network Auto-Train
+
+on: [push] # Jab bhi tum code "Push" karoge, ye apne aap chalega
+
+jobs:
+  ai-training-job:
+    runs-on: ubuntu-latest # GitHub ek virtual Linux machine chalayega
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3 # Tumhara code virtual machine mein copy karega
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9' # Python install karega
+
+    - name: Install Dependencies
+      run: pip install numpy # AI ke liye Numpy library install karega
+
+    - name: Run AI Training
+      run: python mini_brain.py # Tumhara AI script chalayega
