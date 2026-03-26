@@ -1,6 +1,10 @@
 name: Neural Network Auto-Train
 
-on: [push]
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: '0 0 * * *'  # Ye har raat 12 baje apne aap chalega!
 
 jobs:
   ai-training-job:
