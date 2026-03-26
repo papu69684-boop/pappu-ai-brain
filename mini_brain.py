@@ -1,31 +1,30 @@
-import mysql.connector
+import random
 
-# --- 1. Database Connection Check ---
-try:
-    # Ye tumhare laptop par chalega
-    db = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="YOUR_PASSWORD", # Apna password dalo
-        database="GODS"
-    )
-    cursor = db.cursor()
-    cursor.execute("SELECT temperature, humidity FROM Weather_Logs ORDER BY id DESC LIMIT 1")
-    result = cursor.fetchone()
-    temp, hum = result[0], result[1]
-    print("✅ Local SQL Database se data mil gaya!")
+def pappu_ai_decision():
+    # 1. Random Data Generate (Real-world simulation)
+    temp = random.randint(15, 45) 
+    hum = random.randint(30, 95)
 
-except Exception as e:
-    # Ye GitHub ke server par chalega (Jab SQL nahi milega)
-    print("⚠️ Local SQL nahi mila (GitHub Server Mode). Fake data use kar raha hoon...")
-    temp, hum = 32, 85  # Ye humne khud se maan liya
-    print(f"Using Mock Data: Temp {temp}°C, Humidity {hum}%")
+    print(f"--- 🧠 PAPPU'S MASTER AI REPORT ---")
+    print(f"Current Temperature: {temp}°C")
+    print(f"Current Humidity: {hum}%")
+    print("-" * 35)
 
-# --- 2. AI Prediction Logic ---
-print("\n--- 🧠 PAPPU AI ANALYSIS ---")
-if hum > 75:
-    print("RESULT: ⛈️ Baarish ho sakti hai! Chhatri (Umbrella) le lo.")
-else:
-    print("RESULT: ☀️ Mausam saaf hai, maze karo!")
+    # 2. Advanced Logic (The Decision Maker)
+    if hum > 85:
+        advice = "⛈️ Tez Baarish! Ghar pe raho aur Garma-Garam PAKODE khao. ☕"
+    elif 65 <= hum <= 85:
+        advice = "☔ Halki Baarish ho sakti hai. CHHATRI (Umbrella) saath rakho."
+    elif temp > 35:
+        advice = "☀️ Bahut Garmi hai! Thanda paani piyo aur AC/Cooler chalao. 🥤"
+    elif temp < 22:
+        advice = "❄️ Mausam Thanda hai! Apni JACKET pehen lo, Pappu. 🧥"
+    else:
+        advice = "🌈 Mausam Suhana hai! Bahar ghoomne ya doston se milne jao. 🚲"
 
-print("\nStatus: Workflow Completed Successfully!")
+    print(f"RESULT: {advice}")
+    print("-" * 35)
+    print("✅ Logic Executed Successfully!")
+
+if __name__ == "__main__":
+    pappu_ai_decision()
