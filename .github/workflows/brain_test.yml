@@ -4,7 +4,7 @@ on:
   push:
     branches: [ main ]
   schedule:
-    - cron: '0 0 * * *'  # 🕰️ Ye har raat 12 baje apne aap chalega!
+    - cron: '0 0 * * *'
 
 jobs:
   ai-training-job:
@@ -12,17 +12,17 @@ jobs:
 
     steps:
     - name: Checkout Code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4  # <--- v3 ko v4 kar diya (Modern version)
 
     - name: Setup Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5  # <--- v4 ko v5 kar diya (Modern version)
       with:
-        python-version: '3.9'
+        python-version: '3.11'  # Naya Python version use karte hain
 
     - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install numpy mysql-connector-python requests  # <--- 'requests' yahan hona zaroori hai
+        pip install requests numpy mysql-connector-python
 
     - name: Run AI Brain
       run: python mini_brain.py
